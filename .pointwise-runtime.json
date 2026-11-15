@@ -1,0 +1,32 @@
+{
+  "schema": "pointwise-runtime/v1",
+  "package": "cyclemean",
+  "entry_point": "cyclemean.minimum(n, edges)",
+  "language": "Python 3 (standard library only)",
+  "python_version": "3.11.2",
+  "recorded_at": "2026-11-15",
+  "files": [
+    "cyclemean.py",
+    "verify_cyclemean.py",
+    "demo_cyclemean.py",
+    "README.md"
+  ],
+  "commands": [
+    {
+      "id": "verify",
+      "run": "python3 verify_cyclemean.py",
+      "purpose": "真实核验：14 个定向用例（规格示例、不连通分量、负环、平行边、自环、分数均值）；n=2 全部 455 个多重图对独立暴力穷举；2000 个随机小图对暴力穷举；60 个随机中图（见证 + Bellman-Ford + Kahn 三重独立判定）；稠密有环图 n=500/m=20000、大规模无环图 n=500/m=20000、19997 边无环区域埋藏单回路的实测。",
+      "executed": true,
+      "exit_code": 0,
+      "observed_output": "[ok] directed cases (spec example, disconnected, negative, parallel, self-loop): 14\n[ok] exhaustive n=2, |E|<=3, costs in {-1,0,1}: 455 graphs vs brute force\n[ok] random small graphs vs independent brute force: 2000 trials\n[ok] random medium graphs (witness + Bellman-Ford + Kahn oracles): 60 trials\n[ok] dense cyclic n=500 m=20000: mean=-2947311419/3, witness 3 edges, optimal (Bellman-Ford), minimum() took 0.76s\n[ok] large acyclic n=500 m=20000: None confirmed by Kahn, minimum() took 0.24s\n[ok] cycle buried in 19997-edge acyclic region: mean=-10/1, witness [19998, 19999, 19997], minimum() took 0.50s\nALL CHECKS PASSED"
+    },
+    {
+      "id": "demo",
+      "run": "python3 demo_cyclemean.py",
+      "purpose": "演示：规格示例（返回 3/1 与边 [0,1]）及不连通分量、无环、负自环、平行边、分数均值情形。",
+      "executed": true,
+      "exit_code": 0,
+      "observed_output": "specification example: n=2, edges=[(0, 1, 2), (1, 0, 4), (1, 1, 5)]\n  -> minimum mean = 3/1, witness edge_ids=[0, 1]\n     cycle 0 -> 1 -> 0, total cost 6, length 2\n(另有 5 组情形，详见 demo_cyclemean.py 输出)"
+    }
+  ]
+}
